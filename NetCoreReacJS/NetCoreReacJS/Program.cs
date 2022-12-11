@@ -1,8 +1,12 @@
+using NetCoreReacJS.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AdventureWorks2019Context>();
 
 var app = builder.Build();
 

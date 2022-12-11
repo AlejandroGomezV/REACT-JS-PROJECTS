@@ -4,28 +4,47 @@ import Card from "./Components/Card";
 
 const App = () => {
 
-    const [name, setName] = useState('Pedro');
+    const [employees, setEmployee] = useState([]);
 
-    const writeInConsole = () => {
-        setName("Maria");
-        console.log("1.Name changed: " + name);
+    const consumeApi = async () => {
+        const response = await fetch("api/employee/GetEmployee");
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setEmployee(data);
+        }
     }
 
-    //use useEffect to detect changes, Execute when detect some change
     useEffect(() => {
-        console.log("2.Name changed: " + name);
-    }, [name])
-
-    useEffect(() => {
-        console.log("The app has started");
-    }, [])
+        consumeApi();
+    }, []);
 
     return (
-        <div className="container-fluid">
-            <h1>Actual name is: {name}</h1>
-            <button onClick={writeInConsole}>Change name</button>
-
-
+        <div className="container">
+            <h5>Employeees</h5>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>NationalIDNumber</th>
+                        <th>JobTitle</th>
+                        <th>Gender</th>
+                        <th>VacationHours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        employees.map((item) => (
+                            <tr key={item.nationalIdnumber}>
+                                <td>{item.nationalIdnumber}</td>
+                                <td>{item.jobTitle}</td>
+                                <td>{item.gender}</td>
+                                <td>{item.vacationHours}</td>
+                            </tr>
+                            ))
+                    }
+                </tbody>
+            </table>
         </div>
 
 
